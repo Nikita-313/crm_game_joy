@@ -1,3 +1,4 @@
+import 'package:crm_game_joy/ui/screens/activity/activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -12,9 +13,17 @@ class _HomeWidgetState extends State<HomeWidget> {
   int _counter = 0;
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    // setState(() {
+    //   _counter++;
+    // });
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ActivityScreen(
+          title: 'Название',
+          description: 'Описание',
+        ),
+      ),
+    );
   }
 
   var items = List<String>.generate(10000, (i) => 'Item $i');
@@ -69,14 +78,14 @@ class _ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding:const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: SizedBox(
           height: 400,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const[
+            children: const [
               Text("ПОХОД"),
-             // Text("Поход в пещерный город"),
+              // Text("Поход в пещерный город"),
             ],
           ),
         ),
