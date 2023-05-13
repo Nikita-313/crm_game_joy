@@ -7,6 +7,7 @@ abstract class MainNavigationRoutsName {
   static const home = '/home';
   static const activity = '/activity/create';
   static const personArea = '/personArea';
+  static const voting = '/voting/create';
 }
 
 class MainNavigation {

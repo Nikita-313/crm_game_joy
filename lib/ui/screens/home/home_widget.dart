@@ -3,6 +3,10 @@ import 'package:crm_game_joy/domain/sevice/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:crm_game_joy/ui/screens/activity/activity_screen.dart';
+import 'package:crm_game_joy/ui/screens/voting/voting_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../domain/model/activity.dart';
@@ -13,7 +17,7 @@ class _ViewModel extends ChangeNotifier {
   final apiActivity = ApiActivity();
   final test = AuthService();
   LoadStatus loadStatus = LoadStatus.loading;
-  DateTime dateTimeSelected= DateTime.now();
+  DateTime dateTimeSelected = DateTime.now();
 
   _ViewModel() {
     getActivities();
@@ -40,7 +44,31 @@ class _ViewModel extends ChangeNotifier {
 }
 
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({super.key});
+  HomeWidget({super.key});
+
+  void _createActivity(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ActivityScreen(
+          title: 'Название',
+          description: 'Описание',
+        ),
+      ),
+    );
+  }
+
+  void _createVoting(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const VotingScreen(
+          title: 'Название',
+          description: 'Описание',
+        ),
+      ),
+    );
+  }
+
+  var items = List<String>.generate(10000, (i) => 'Item $i');
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +103,18 @@ class HomeWidget extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          vm.getActivities();
-        },
-        tooltip: 'Новая активность',
-        child: const Icon(Icons.add),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.add_event,
+        children: [
+          SpeedDialChild(
+              child: const Icon(Icons.run_circle_outlined),
+              label: 'Активность',
+              onTap: () => _createActivity(context)),
+          SpeedDialChild(
+              child: const Icon(Icons.accessibility_outlined),
+              label: 'Голосование',
+              onTap:()=> _createVoting(context))
+        ],
       ),
     );
   }
@@ -88,7 +122,7 @@ class HomeWidget extends StatelessWidget {
   static Widget create() {
     return ChangeNotifierProvider(
       create: (context) => _ViewModel(),
-      child: const HomeWidget(),
+      child: HomeWidget(),
     );
   }
 }
@@ -106,9 +140,10 @@ class _ActivityListWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Text(
+              Text(
                 vm.list.isEmpty ? "Нет активностей" : "Активности",
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 5,
