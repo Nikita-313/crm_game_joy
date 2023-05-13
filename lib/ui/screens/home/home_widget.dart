@@ -1,5 +1,7 @@
 import 'package:crm_game_joy/ui/screens/activity/activity_screen.dart';
+import 'package:crm_game_joy/ui/screens/voting/voting_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -10,15 +12,21 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    // setState(() {
-    //   _counter++;
-    // });
+  void _createActivity() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const ActivityScreen(
+          title: 'Название',
+          description: 'Описание',
+        ),
+      ),
+    );
+  }
+
+  void _createVoting() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const VotingScreen(
           title: 'Название',
           description: 'Описание',
         ),
@@ -40,11 +48,19 @@ class _HomeWidgetState extends State<HomeWidget> {
           _ActivityListWidget(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Новая активность',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.add_event,
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.run_circle_outlined),
+              label: 'Активность',
+              onTap: _createActivity),
+          SpeedDialChild(
+              child: Icon(Icons.accessibility_outlined),
+              label: 'Голосование',
+              onTap: _createVoting)
+        ],
+      ),
     );
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
-class ActivityScreen extends StatelessWidget {
+class VotingScreen extends StatelessWidget {
   final String title;
   final String description;
-  const ActivityScreen({
+  const VotingScreen({
     super.key,
     required this.title,
     required this.description,
@@ -34,7 +33,7 @@ class ActivityScreen extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             decoration: InputDecoration(
-                              hintText: 'Название',
+                              hintText: 'Title',
                               border: InputBorder.none,
                               hintStyle: TextStyle(
                                 fontSize: 18,
@@ -53,13 +52,30 @@ class ActivityScreen extends StatelessWidget {
                 DateInputField(),
                 const SizedBox(height: 30),
                 TimePicker(),
+                const SizedBox(height: 15),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'Description',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: const Color(0xFF1D1B20).withOpacity(0.5),
+                              ),
+                            ),
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                  ],
+                ),
                 const SizedBox(height: 30),
-                TransferPriceInputField(),
-                const SizedBox(height: 30),
-                PersonPriceInputField(),
-                const SizedBox(height: 12),
-                FormatPicker(),
-                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40).copyWith(
                     bottom: 20,
@@ -128,7 +144,7 @@ class _DateInputFieldState extends State<DateInputField> {
             Row(
               children: [
                 Text(
-                  'Дата',
+                  'Date',
                   style: TextStyle(
                     fontSize: 18,
                     color: const Color(0xFF1D1B20).withOpacity(0.5),
@@ -194,7 +210,7 @@ class _TimePickerState extends State<TimePicker> {
             Row(
               children: [
                 Text(
-                  'Время',
+                  'Time',
                   style: TextStyle(
                     fontSize: 18,
                     color: const Color(0xFF1D1B20).withOpacity(0.5),
@@ -225,163 +241,6 @@ class _TimePickerState extends State<TimePicker> {
             const Divider(),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class TransferPriceInputField extends StatefulWidget {
-  const TransferPriceInputField({super.key});
-
-  @override
-  State<TransferPriceInputField> createState() =>
-      _TransferPriceInputFieldState();
-}
-
-class _TransferPriceInputFieldState extends State<TransferPriceInputField> {
-  String? price;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text('Стоимость трансфера: '),
-        const SizedBox(width: 8),
-        Expanded(
-            child: TextFormField(
-          keyboardType: TextInputType.number,
-        ))
-      ],
-    );
-  }
-}
-
-class PersonPriceInputField extends StatefulWidget {
-  const PersonPriceInputField({super.key});
-
-  @override
-  State<PersonPriceInputField> createState() => _PersonPriceInputFieldState();
-}
-
-class _PersonPriceInputFieldState extends State<PersonPriceInputField> {
-  String? price;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text('Цена за человека: '),
-        const SizedBox(width: 8),
-        Expanded(
-            child: TextFormField(
-          keyboardType: TextInputType.number,
-        ))
-      ],
-    );
-  }
-}
-
-class FormatPicker extends StatefulWidget {
-  const FormatPicker({super.key});
-
-  @override
-  State<FormatPicker> createState() => _FormatPickerState();
-}
-
-class _FormatPickerState extends State<FormatPicker> {
-  bool offlineChosen = false;
-  bool onlineChosen = false;
-  final List<String> offices = [
-    'Все',
-    'Севастополь',
-    'Симферополь',
-    'Феодосия',
-  ];
-  late String chosenValue = offices.first;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Text('Формат: '),
-        ),
-        Column(
-          children: [
-            LabeledCheckbox(
-              label: "Офлайн",
-              value: offlineChosen,
-              onChanged: (val) {
-                setState(() {
-                  offlineChosen = true;
-                  onlineChosen = false;
-                });
-              },
-            ),
-            LabeledCheckbox(
-              label: "Онлайн",
-              value: onlineChosen,
-              onChanged: (val) {
-                setState(() {
-                  offlineChosen = false;
-                  onlineChosen = true;
-                });
-              },
-            ),
-          ],
-        ),
-        const Spacer(),
-        DropdownButton<String>(
-          items: offices.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          value: chosenValue,
-          onChanged: (val) {
-            if (val != null) {
-              setState(() {
-                chosenValue = val;
-              });
-            }
-          },
-        )
-      ],
-    );
-  }
-}
-
-class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
-    Key? key,
-    required this.label,
-    required this.value,
-    required this.onChanged,
-  }) : super(key: key);
-
-  final String label;
-  final bool value;
-  final Function onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      child: Row(
-        children: <Widget>[
-          Checkbox(
-            value: value,
-            onChanged: (bool? newValue) {
-              onChanged(newValue);
-            },
-          ),
-          Text(label),
-        ],
       ),
     );
   }
