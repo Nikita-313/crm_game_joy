@@ -10,7 +10,14 @@ class CrmGameJoyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          color: Color(0xFFF86161),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Color(0xFFF86161),
+        )
+      ),
       initialRoute: mainNavigation.initialRout,
       routes: mainNavigation.routs,
     );

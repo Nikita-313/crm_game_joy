@@ -18,6 +18,7 @@ class VotingScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        appBar: AppBar(),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(

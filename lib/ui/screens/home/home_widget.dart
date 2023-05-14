@@ -5,10 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:crm_game_joy/ui/screens/activity/activity_screen.dart';
 import 'package:crm_game_joy/ui/screens/voting/voting_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../../../domain/model/activity.dart';
 
 enum LoadStatus { loaded, loading, error }
@@ -68,11 +66,8 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  var items = List<String>.generate(10000, (i) => 'Item $i');
-
   @override
   Widget build(BuildContext context) {
-    final vm = context.read<_ViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
@@ -107,13 +102,19 @@ class HomeWidget extends StatelessWidget {
         animatedIcon: AnimatedIcons.add_event,
         children: [
           SpeedDialChild(
-              child: const Icon(Icons.run_circle_outlined),
+              labelBackgroundColor: const Color(0xFFF86161),
+              backgroundColor: const Color(0xFFF86161),
+              labelStyle: const TextStyle(color: Colors.white),
+              child: const Icon(Icons.run_circle_outlined, color: Colors.white,),
               label: 'Активность',
               onTap: () => _createActivity(context)),
           SpeedDialChild(
-              child: const Icon(Icons.accessibility_outlined),
+              labelBackgroundColor: const Color(0xFFF86161),
+              backgroundColor: const Color(0xFFF86161),
+              labelStyle: const TextStyle(color: Colors.white),
+              child: const Icon(Icons.accessibility_outlined, color: Colors.white,),
               label: 'Голосование',
-              onTap:()=> _createVoting(context))
+              onTap: () => _createVoting(context))
         ],
       ),
     );
@@ -122,6 +123,7 @@ class HomeWidget extends StatelessWidget {
   static Widget create() {
     return ChangeNotifierProvider(
       create: (context) => _ViewModel(),
+      lazy: false,
       child: HomeWidget(),
     );
   }
@@ -308,6 +310,10 @@ class _CalendarWidgetState extends State<_CalendarWidget> {
       child: Card(
         color: Colors.white,
         child: TableCalendar(
+          calendarStyle: CalendarStyle(
+            selectedDecoration : const BoxDecoration(color:  Color(0xFFF86161), shape: BoxShape.circle),
+            todayDecoration: BoxDecoration(color:  const Color(0xFFF86161).withOpacity(0.6), shape: BoxShape.circle),
+          ),
           firstDay: kFirstDay,
           lastDay: kLastDay,
           focusedDay: _focusedDay,

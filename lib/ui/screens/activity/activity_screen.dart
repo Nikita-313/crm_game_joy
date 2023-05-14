@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ActivityScreen extends StatelessWidget {
   final String title;
@@ -19,6 +18,7 @@ class ActivityScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        appBar: AppBar(),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
@@ -304,8 +304,8 @@ class _FormatPickerState extends State<FormatPicker> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16),
+        const Padding(
+          padding: EdgeInsets.only(top: 16),
           child: Text('Формат: '),
         ),
         Column(
